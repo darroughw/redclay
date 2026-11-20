@@ -45,22 +45,19 @@
   }
 }
 
-@layer components {
-  /* 1440 artboard: 120px side margins → 1200px content. Phones: 20px. */
-  .wrap {
-    width: 100%;
-    max-width: 1440px;
-    margin-inline: auto;
-    padding-inline: 20px;
-  }
+/*
+  Page container. 1440 artboard: 120px side margins → 1200px content. Phones: 20px.
+  Declared with @utility (not a plain class) so variants like `lg:wrap` work.
+*/
+@utility wrap {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+  padding-inline: 20px;
   @media (min-width: 768px) {
-    .wrap {
-      padding-inline: 40px;
-    }
+    padding-inline: 40px;
   }
   @media (min-width: 1280px) {
-    .wrap {
-      padding-inline: 120px;
-    }
+    padding-inline: 120px;
   }
 }

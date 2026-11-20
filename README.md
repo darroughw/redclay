@@ -8,7 +8,7 @@ It's a single, fast landing page built from the approved Figma design, with a le
 |---|---|
 | Design | [Figma: Red Clay](https://www.figma.com/design/5ui3QKy3DZkivc9TApdIcK/Red-Clay) (desktop 1440 and mobile 390 frames) |
 | Repo | https://github.com/darroughw/redclay |
-| Preview site | _not deployed yet_ |
+| Hosting | Netlify (Git-connected, settings in `netlify.toml`); preview link once connected |
 | Editor (Sanity Studio) | _not set up yet_ |
 | Production domain | _to be decided_ |
 
@@ -82,5 +82,6 @@ studio/                       the editor (Sanity Studio), coming next
 - [x] Inspection form (server action, validation, honeypot, saves to Sanity)
 - [ ] Sanity Studio: schemas, singleton docs, seed import from `defaults.ts`
 - [ ] Create the Sanity project and hosted Studio
-- [ ] Hosting + publish webhook + email notification for new leads
+- [x] Netlify config (`netlify.toml`)
+- [ ] Connect repo in Netlify, publish webhook, email notification for new leads
 - [ ] Domain, `SITE_LIVE=true`, privacy page, analytics
