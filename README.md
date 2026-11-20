@@ -54,7 +54,7 @@ npm run lint
 | `NEXT_PUBLIC_SANITY_DATASET` | Usually `production`. |
 | `SANITY_WRITE_TOKEN` | Server-only Editor token so the form can save requests. |
 | `SANITY_REVALIDATE_SECRET` | Shared secret for the publish webhook (`Authorization: Bearer …`). |
-| `NEXT_PUBLIC_SITE_URL` | Absolute site URL for metadata and structured data. |
+| `NEXT_PUBLIC_SITE_URL` | Optional full address (`https://…`). On Netlify it defaults to the site's own address; set it only for the real domain at launch. |
 | `SITE_LIVE` | Set to `true` on production once the real domain points here. Until then every page is `noindex`. |
 
 ## Project layout

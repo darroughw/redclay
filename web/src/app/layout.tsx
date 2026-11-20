@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow, Barlow_Condensed, Montserrat, Roboto_Slab } from "next/font/google";
 import "./globals.css";
+import { siteUrl } from "@/lib/site";
 
 const robotoSlab = Roboto_Slab({
   variable: "--font-roboto-slab",
@@ -23,8 +24,6 @@ const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["700"],
 });
-
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

@@ -1,4 +1,5 @@
 import { getContent, telHref } from "@/lib/content";
+import { siteUrl } from "@/lib/site";
 import { Header, StickyCta } from "@/components/interactive";
 import {
   About,
@@ -18,7 +19,6 @@ import {
 export default async function Home() {
   const c = await getContent();
   const tel = telHref(c.business.phone);
-  const site = process.env.NEXT_PUBLIC_SITE_URL ?? "https://redclaycrawlspace.com";
 
   // Structured data for Google: who we are, where we work, how to reach us.
   const jsonLd = {
@@ -26,7 +26,7 @@ export default async function Home() {
     "@type": "HomeAndConstructionBusiness",
     name: c.business.name,
     telephone: c.business.phone,
-    url: site,
+    url: siteUrl,
     address: { "@type": "PostalAddress", addressLocality: c.business.city, addressRegion: c.business.region, addressCountry: "US" },
     areaServed: c.business.counties.map((county) => ({ "@type": "AdministrativeArea", name: `${county} County, ${c.business.region}` })),
     sameAs: [c.business.facebookUrl].filter(Boolean),
