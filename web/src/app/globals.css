@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+/*
+  Red Clay design tokens, from the Figma file's variables.
+  Clay red is the only accent; sand and ink carry everything else.
+*/
+@theme {
+  --color-white: #ffffff;
+  --color-ink-900: #1f1f1f;
+  --color-ink-700: #2e2d2c;
+  --color-ink-500: #6b6f73;
+  --color-clay-500: #9e3a2a;
+  --color-clay-600: #86301f;
+  --color-clay-100: #f5e4df;
+  --color-sand-100: #f2ede7;
+  --color-sand-200: #e8e0d5;
+  --color-line: #ddd5ca;
+
+  --font-slab: var(--font-roboto-slab), Georgia, serif;
+  --font-body: var(--font-barlow), system-ui, sans-serif;
+  --font-cond: var(--font-barlow-condensed), "Arial Narrow", sans-serif;
+  --font-mont: var(--font-montserrat), system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 1rem;
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-white);
+    color: var(--color-ink-900);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-clay-500);
+    outline-offset: 2px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /* 1440 artboard: 120px side margins → 1200px content. Phones: 20px. */
+  .wrap {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: 20px;
+  }
+  @media (min-width: 768px) {
+    .wrap {
+      padding-inline: 40px;
+    }
+  }
+  @media (min-width: 1280px) {
+    .wrap {
+      padding-inline: 120px;
+    }
+  }
+}

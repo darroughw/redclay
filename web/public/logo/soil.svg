@@ -1,0 +1,10 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="200" height="230" viewBox="0 0 200 230" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group">
+<path id="Vector" d="M200 0H0V230H200V0Z" fill="black"/>
+<path id="Vector_2" d="M200 95H0V98.5H200V95Z" fill="white"/>
+<path id="Vector_3" d="M0 118C40 106 70 130 100 120C130 110 160 130 200 116V230H0V118Z" fill="white"/>
+<path id="Vector_4" d="M0 128C40 116 70 140 100 130C130 120 160 140 200 126V146C160 160 130 140 100 150C70 160 40 136 0 148V128Z" fill="#9E3A2A"/>
+<path id="Vector_5" d="M0 155C40 143 70 167 100 157C130 147 160 167 200 153V173C160 187 130 167 100 177C70 187 40 163 0 175V155Z" fill="#9E3A2A"/>
+<path id="Vector_6" d="M0 182C40 170 70 194 100 184C130 174 160 194 200 180V230H0V182Z" fill="#9E3A2A"/>
+</g>
+</svg>

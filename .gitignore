@@ -1,0 +1,48 @@
+.DS_Store
+
+# Dependencies (web/ and studio/ each have their own package.json)
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# The repo root has no package.json, so an npm command run here just leaves a stray lockfile.
+/package-lock.json
+
+# Builds
+.next/
+out/
+build/
+dist/
+coverage/
+*.tsbuildinfo
+next-env.d.ts
+
+# Sanity Studio build output
+studio/.sanity/
+
+# Secrets: keep .env.example, ignore every real env file
+.env
+.env.*
+!.env.example
+*.pem
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Hosting / tool state
+.vercel/
+.netlify/
+
+# Original client files (large photos, logo source files). Web-ready copies live in web/public.
+clientAssets/
+
+# Claude Code notes (local only)
+CLAUDE.md
