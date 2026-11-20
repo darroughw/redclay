@@ -1,5 +1,6 @@
 "use server";
 
+import { emailConfigured, emailLead } from "@/lib/notify";
 import { sanityWriter } from "@/lib/sanity";
 
 export type LeadState =
@@ -33,21 +34,24 @@ export async function submitLead(_prev: LeadState, formData: FormData): Promise<
     return { status: "error", message: "Please fix the highlighted fields.", fields };
   }
 
-  if (!sanityWriter) {
-    // Never tell a homeowner we got their request when it went nowhere.
-    if (process.env.NODE_ENV !== "production") {
-      console.info("[lead] Sanity write token not set; lead not stored:", lead);
-      return { status: "success", name: lead.name };
-    }
-    console.error("[lead] SANITY_WRITE_TOKEN missing; lead dropped");
-    return { status: "error", message: "Sorry, the form isn’t working right now. Please call or text us instead." };
-  }
+  // Two independent delivery paths: saved in Sanity (the record Kerney works from) and
+  // emailed (so he hears about it right away). The request counts as received if either
+  // worked; the homeowner only sees an error when both failed, so a lead is never lost
+  // silently. Failures are logged either way.
+  const [saved, emailed] = await Promise.allSettled([
+    sanityWriter
+      ? sanityWriter.create({ _type: "lead", ...lead, status: "new", submittedAt: new Date().toISOString() })
+      : Promise.reject(new Error("SANITY_WRITE_TOKEN not set")),
+    emailConfigured() ? emailLead(lead) : Promise.reject(new Error("RESEND_API_KEY / LEAD_NOTIFY_TO not set")),
+  ]);
+  if (saved.status === "rejected") console.error("[lead] not saved to Sanity:", saved.reason);
+  if (emailed.status === "rejected") console.error("[lead] not emailed:", emailed.reason);
 
-  try {
-    await sanityWriter.create({ _type: "lead", ...lead, status: "new", submittedAt: new Date().toISOString() });
-  } catch (err) {
-    console.error("[lead] save failed", err);
-    return { status: "error", message: "Sorry, something went wrong sending that. Please call or text us instead." };
+  if (saved.status === "fulfilled" || emailed.status === "fulfilled") return { status: "success", name: lead.name };
+
+  if (process.env.NODE_ENV !== "production") {
+    console.info("[lead] dev mode, nothing configured; treating as sent:", lead);
+    return { status: "success", name: lead.name };
   }
-  return { status: "success", name: lead.name };
+  return { status: "error", message: "Sorry, something went wrong sending that. Please call or text us instead." };
 }

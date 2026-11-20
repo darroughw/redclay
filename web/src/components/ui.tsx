@@ -1,42 +1,22 @@
 import type { ComponentProps, ReactNode } from "react";
 
-/* eslint-disable @next/next/no-img-element -- tiny decorative SVG layers, nothing for next/image to optimize */
-
 /**
  * Red Clay shield (brand spec): black outline, white house + chimney, black foundation line,
- * clay red ONLY in the soil layers. Built from the Figma layers so it scales cleanly.
- * Base artboard is 200×230; pass a width and the height follows.
+ * clay red ONLY in the soil layers. public/logo/shield.svg is the Figma "Logo/Mark" layers
+ * combined into one file. Base artboard is 200×230; pass a width and the height follows.
  */
 export function LogoMark({ width = 48, className = "" }: { width?: number; className?: string }) {
-  const layer = "absolute block max-w-none";
   return (
-    <span
+    // eslint-disable-next-line @next/next/no-img-element -- small SVG, nothing for next/image to optimize
+    <img
+      src="/logo/shield.svg"
+      alt=""
       aria-hidden
-      className={`relative inline-block shrink-0 overflow-hidden ${className}`}
+      width={width}
+      height={(width * 230) / 200}
+      className={`inline-block shrink-0 ${className}`}
       style={{ width, height: (width * 230) / 200 }}
-    >
-      <img alt="" src="/logo/v0.svg" className={layer} style={{ inset: "0.87% 1%", width: "98%", height: "98.26%" }} />
-      <img alt="" src="/logo/v1.svg" className={layer} style={{ left: "5.625%", top: "4.85%", width: "88.75%", height: "90.3%" }} />
-      {/* Soil layers, clipped to the inner shield */}
-      <span
-        className="absolute overflow-hidden"
-        style={{
-          inset: "8.7% 10% 9.13% 10%",
-          maskImage: "url(/logo/mask.svg)",
-          WebkitMaskImage: "url(/logo/mask.svg)",
-          maskSize: "100% 100%",
-          WebkitMaskSize: "100% 100%",
-          maskRepeat: "no-repeat",
-          WebkitMaskRepeat: "no-repeat",
-        }}
-      >
-        <img alt="" src="/logo/soil.svg" className={layer} style={{ left: "-12.5%", top: "-10.58%", width: "125%", height: "121.69%" }} />
-      </span>
-      <img alt="" src="/logo/v2.svg" className={layer} style={{ inset: "18.7% 62.5% 72.61% 33%", width: "4.5%", height: "8.69%" }} />
-      <img alt="" src="/logo/v3.svg" className={layer} style={{ inset: "16.52% 26% 67.83% 26%", width: "48%", height: "15.65%" }} />
-      <img alt="" src="/logo/v4.svg" className={layer} style={{ inset: "30.87% 33.5% 60% 33.5%", width: "33%", height: "9.13%" }} />
-      <img alt="" src="/logo/v5.svg" className={layer} style={{ inset: "33.48% 46% 60% 46%", width: "8%", height: "6.52%" }} />
-    </span>
+    />
   );
 }
 
@@ -51,6 +31,7 @@ export function Wordmark({ tone = "dark", compact = false }: { tone?: "dark" | "
         >
           RED CLAY
         </span>
+        {/* Real space so the link's text reads "RED CLAY CRAWLSPACE REPAIR", not "CLAYCRAWLSPACE". */}{" "}
         <span className={`font-mont font-bold ${compact ? "text-[8.61px] tracking-[1.38px]" : "text-[10.5px] tracking-[1.68px]"}`}>
           CRAWLSPACE REPAIR
         </span>
@@ -89,7 +70,7 @@ export function Eyebrow({ children, tone = "clay", rule = "clay" }: { children: 
 
 export function CheckIcon({ className = "" }: { className?: string }) {
   return (
-     
+    // eslint-disable-next-line @next/next/no-img-element -- 22px decorative SVG
     <img alt="" aria-hidden src="/icons/check.svg" width={22} height={22} className={`size-[22px] shrink-0 ${className}`} />
   );
 }

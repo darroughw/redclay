@@ -25,17 +25,39 @@ const montserrat = Montserrat({
   weight: ["700"],
 });
 
+const description =
+  "Stokes County owned crawlspace and basement repair: encapsulation, vapor barriers, footings, drainage, sump pumps, framing and masonry for Stokes, Surry, Forsyth & Yadkin counties, NC. Free inspections.";
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Red Clay Crawlspace Repair | Crawlspace & Basement Moisture Solutions",
-  description:
-    "Stokes County owned crawlspace and basement repair: encapsulation, footings, drainage, framing and masonry for Stokes, Surry, Forsyth and Yadkin counties. Free inspections.",
+  title: {
+    default: "Crawlspace Repair & Encapsulation in Stokes, Surry, Forsyth & Yadkin, NC | Red Clay",
+    template: "%s | Red Clay Crawlspace Repair",
+  },
+  description,
+  applicationName: "Red Clay Crawlspace Repair",
+  alternates: { canonical: "/" },
   // Until launch (SITE_LIVE=true), keep preview copies out of search results.
-  robots: process.env.SITE_LIVE === "true" ? undefined : { index: false, follow: false },
+  robots: process.env.SITE_LIVE === "true" ? { index: true, follow: true, "max-image-preview": "large" } : { index: false, follow: false },
   openGraph: {
     type: "website",
+    url: "/",
     siteName: "Red Clay Crawlspace Repair",
+    title: "Red Clay Crawlspace Repair: Protecting Homes from the Ground Up",
+    description,
     locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Red Clay Crawlspace Repair: Protecting Homes from the Ground Up",
+    description,
+  },
+  formatDetection: { telephone: true, address: false, email: false },
+  category: "home improvement",
+  // Local-search hints some engines and AI crawlers still read.
+  other: {
+    "geo.region": "US-NC",
+    "geo.placename": "Pfafftown, North Carolina",
   },
 };
 

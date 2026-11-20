@@ -425,7 +425,7 @@ export function FinalCta({ c }: P) {
   );
 }
 
-export function Footer({ c }: P) {
+export function Footer({ c, home = "" }: P & { home?: string }) {
   const { business, services } = c;
   const year = 2026;
   const label = "font-cond text-[15px] font-bold uppercase tracking-[2.1px] text-clay-100";
@@ -446,7 +446,7 @@ export function Footer({ c }: P) {
               <ul className="flex flex-col gap-3 font-body text-[16px] font-medium">
                 {services.map((s) => (
                   <li key={s.id}>
-                    <a href="#services" className="hover:underline">
+                    <a href={`${home}#services`} className="hover:underline">
                       {s.title}
                     </a>
                   </li>
@@ -482,7 +482,11 @@ export function Footer({ c }: P) {
           <p>
             © {year} {business.name}. All rights reserved.
           </p>
-          <p>Stokes County owned &amp; operated</p>
+          <p>
+            <a href="/privacy" className="hover:underline">
+              Privacy
+            </a>
+          </p>
         </div>
       </div>
     </footer>

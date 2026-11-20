@@ -18,6 +18,13 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
+# The share card is generated on first request; keep it on Netlify's CDN for a year. Its URL
+# carries a content hash, so a changed card gets a new URL.
+[[headers]]
+  for = "/opengraph-image*"
+  [headers.values]
+    Netlify-CDN-Cache-Control = "public, durable, max-age=31536000, stale-while-revalidate=86400"
+
 [[headers]]
   for = "/*"
   [headers.values]

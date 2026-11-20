@@ -32,7 +32,15 @@ Nothing goes live until you click **Publish**. After that the change is on the s
 1. Content is edited in **Sanity**.
 2. The **Next.js** site in `web/` reads published content from Sanity and caches the page. It's prerendered as static HTML, and photos are resized and served as AVIF/WebP.
 3. Publishing in Sanity fires a webhook at `/api/revalidate`, which marks the cached content stale. The next visitor gets the update, with no full rebuild.
-4. The inspection form posts to a Next.js server action. It validates the fields, filters bots with a honeypot, and saves the request into Sanity. In production it only reports success if the request was actually saved, so a misconfiguration can't silently drop leads.
+4. The inspection form posts to a Next.js server action. It validates the fields, filters bots with a honeypot, then saves the request into Sanity **and** emails it to Kerney (Resend). It reports success if either worked, and only shows the homeowner an error if both failed, so a lead is never lost silently.
+
+### Search, sharing and AI assistants
+
+- Page metadata, canonical URL, Open Graph and Twitter tags in `layout.tsx`. Every page is `noindex` until `SITE_LIVE=true`.
+- Branded 1200×630 share card (`opengraph-image.tsx`), served as a ~100 KB JPEG.
+- Favicons, Apple touch icon and web manifest, generated from `public/logo/shield.svg` (the Figma logo layers combined).
+- `robots.txt`, `sitemap.xml`, and JSON-LD (`src/lib/schema.ts`): HomeAndConstructionBusiness with service area, services and the free-inspection offer, plus WebSite, WebPage and the 4-step process.
+- `/llms.txt`: a plain-text summary for AI assistants, built from the same Sanity content.
 
 If Sanity isn't configured (or is down), the site falls back to the approved Figma copy in `web/src/content/defaults.ts`. Empty fields in Sanity fall back the same way, so a half-filled document never leaves a hole in the page.
 
@@ -47,6 +55,8 @@ npm install
 npm run dev                  # site at http://localhost:3000
 npm run build                # production build
 npm run lint
+npm run test:a11y            # after a build: axe WCAG 2.1 AA in Chrome, desktop + phone
+npm run icons                # regenerate favicons/app icons from public/logo/shield.svg
 
 cd ../studio
 npm install
@@ -66,6 +76,9 @@ The publish webhook ("Refresh website on publish") is set up in Sanity under **A
 | `SANITY_WRITE_TOKEN` | Server-only Editor token so the form can save requests. |
 | `SANITY_REVALIDATE_SECRET` | Shared secret for the publish webhook (`Authorization: Bearer …`). |
 | `NEXT_PUBLIC_SITE_URL` | Optional full address (`https://…`). On Netlify it defaults to the site's own address; set it only for the real domain at launch. |
+| `RESEND_API_KEY` | Resend API key for new-lead email alerts. |
+| `LEAD_NOTIFY_TO` | Who gets lead alerts (comma-separate several). |
+| `LEAD_EMAIL_FROM` | Optional sender. Leave empty until the domain is verified in Resend. |
 | `SITE_LIVE` | Set to `true` on production once the real domain points here. Until then every page is `noindex`. |
 
 ## Project layout
@@ -82,6 +95,10 @@ web/                          the website (Next.js 16, App Router, Tailwind 4)
   src/content/                content types and the approved Figma copy (defaults + Sanity seed)
   src/lib/content.ts          one cached GROQ query, merged over the defaults
   src/lib/sanity.ts           Sanity client and photo helper (crop + hotspot)
+  src/lib/notify.ts           new-lead email (Resend)
+  src/lib/schema.ts           JSON-LD
+  src/app/opengraph-image.tsx share card; robots.ts, sitemap.ts, manifest.ts, llms.txt/
+  scripts/a11y.mjs            accessibility check; make-icons.mjs regenerates icons
   public/images, logo, icons  photos and artwork exported from Figma
 studio/                       the editor (Sanity Studio)
   schemaTypes/                the editing forms, written for Kerney
@@ -98,6 +115,9 @@ studio/                       the editor (Sanity Studio)
 - [x] Sanity project, hosted Studio, content seeded, publish webhook
 - [x] Netlify site connected (`netlify.toml`)
 - [x] Sanity env vars set in Netlify; tested live: content from Sanity, publish refresh (~10s), form → Inspection requests
-- [ ] Email notification for new leads
+- [x] Email notification for new leads (code done; needs Resend account + env vars)
+- [x] SEO, share card, icons, structured data, llms.txt, privacy page
+- [x] Accessibility: axe WCAG 2.1 AA clean at desktop and phone (`npm run test:a11y`)
+- [ ] Kerney’s real Facebook page URL in Business info (currently a placeholder)
 - [ ] Invite Kerney to the Sanity project
-- [ ] Domain, `SITE_LIVE=true`, privacy page, analytics
+- [ ] Domain, `SITE_LIVE=true`, analytics

@@ -1,5 +1,5 @@
 import { getContent, telHref } from "@/lib/content";
-import { siteUrl } from "@/lib/site";
+import { siteSchema } from "@/lib/schema";
 import { Header, StickyCta } from "@/components/interactive";
 import {
   About,
@@ -20,18 +20,7 @@ export default async function Home() {
   const c = await getContent();
   const tel = telHref(c.business.phone);
 
-  // Structured data for Google: who we are, where we work, how to reach us.
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "HomeAndConstructionBusiness",
-    name: c.business.name,
-    telephone: c.business.phone,
-    url: siteUrl,
-    address: { "@type": "PostalAddress", addressLocality: c.business.city, addressRegion: c.business.region, addressCountry: "US" },
-    areaServed: c.business.counties.map((county) => ({ "@type": "AdministrativeArea", name: `${county} County, ${c.business.region}` })),
-    sameAs: [c.business.facebookUrl].filter(Boolean),
-    makesOffer: c.services.map((s) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name: s.title, description: s.summary } })),
-  };
+  const jsonLd = siteSchema(c);
 
   return (
     <>

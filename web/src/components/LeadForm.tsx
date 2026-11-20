@@ -48,6 +48,12 @@ export function LeadForm({ services, phone, telHref }: { services: string[]; pho
   const [service, setService] = useState("");
   const uid = useId();
   const ref = useRef<HTMLDivElement>(null);
+  // The form is replaced by the confirmation on success; move focus there so keyboard and
+  // screen-reader users aren't dropped back at the top of the page.
+  const doneRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (state.status === "success") doneRef.current?.focus();
+  }, [state.status]);
   const errors = state.status === "error" ? state.fields ?? {} : {};
   const fid = (name: string) => `${uid}-${name}`;
   const errProps = (name: keyof typeof errors) =>
@@ -73,7 +79,7 @@ export function LeadForm({ services, phone, telHref }: { services: string[]; pho
     return (
       <div ref={ref} id={FORM_ID} className={card} role="status">
         <span aria-hidden className="absolute inset-x-0 top-0 hidden h-[6px] bg-clay-500 lg:block" />
-        <h2 className="font-slab text-[26px] font-bold leading-[1.15] text-ink-900 lg:text-[28px]">
+        <h2 ref={doneRef} tabIndex={-1} className="focus:outline-none font-slab text-[26px] font-bold leading-[1.15] text-ink-900 lg:text-[28px]">
           Thanks{state.name ? `, ${state.name.split(" ")[0]}` : ""}. We’ve got it.
         </h2>
         <p className="mt-3 font-body text-[16px] leading-[1.45] text-ink-500">

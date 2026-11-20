@@ -8,7 +8,9 @@
   --color-white: #ffffff;
   --color-ink-900: #1f1f1f;
   --color-ink-700: #2e2d2c;
-  --color-ink-500: #6b6f73;
+  /* Figma has #6b6f73, which fails WCAG AA on the sand backgrounds (3.87:1 on sand-200).
+     #5f6367 is the lightest shade that passes on all of them (4.63:1 worst case). */
+  --color-ink-500: #5f6367;
   --color-clay-500: #9e3a2a;
   --color-clay-600: #86301f;
   --color-clay-100: #f5e4df;

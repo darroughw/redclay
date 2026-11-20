@@ -8,9 +8,12 @@ import { buttonClass, Wordmark } from "./ui";
 export function QuoteLink({ service, className, children }: { service?: string; className?: string; children: ReactNode }) {
   return (
     <a
-      href={`#${FORM_ID}`}
+      // A real link, so it also works without JavaScript and from other pages.
+      href={`/#${FORM_ID}`}
       className={className}
       onClick={(e) => {
+        // On the home page: preselect the service and scroll to the form in place.
+        if (!document.getElementById(FORM_ID)) return;
         e.preventDefault();
         selectService(service ?? "");
       }}
@@ -44,7 +47,8 @@ const NAV = [
   { href: "#reviews", label: "Reviews" },
 ];
 
-export function Header({ phone, tel }: { phone: string; tel: string }) {
+/** `home` prefixes the in-page links: "" on the home page, "/" elsewhere (e.g. /privacy). */
+export function Header({ phone, tel, home = "" }: { phone: string; tel: string; home?: string }) {
   const [open, setOpen] = useState(false);
   useEffect(() => {
     if (!open) return;
@@ -56,10 +60,10 @@ export function Header({ phone, tel }: { phone: string; tel: string }) {
   return (
     <header className="relative z-40 border-b border-line bg-white">
       <div className="wrap flex items-center justify-between py-3 lg:py-[18px]">
-        <a href="#top" aria-label="Red Clay Crawlspace Repair, home" className="lg:hidden">
+        <a href={`${home}#top`} aria-label="Red Clay Crawlspace Repair, home" className="lg:hidden">
           <Wordmark compact />
         </a>
-        <a href="#top" aria-label="Red Clay Crawlspace Repair, home" className="hidden lg:block">
+        <a href={`${home}#top`} aria-label="Red Clay Crawlspace Repair, home" className="hidden lg:block">
           <Wordmark />
         </a>
 
@@ -67,7 +71,7 @@ export function Header({ phone, tel }: { phone: string; tel: string }) {
           <ul className="flex gap-6 font-body text-[16px] font-semibold text-ink-900 xl:gap-9">
             {NAV.map((l) => (
               <li key={l.href}>
-                <a href={l.href} className="hover:text-clay-500">
+                <a href={`${home}${l.href}`} className="hover:text-clay-500">
                   {l.label}
                 </a>
               </li>
@@ -114,7 +118,7 @@ export function Header({ phone, tel }: { phone: string; tel: string }) {
           <ul className="wrap flex flex-col py-2">
             {NAV.map((l) => (
               <li key={l.href}>
-                <a href={l.href} onClick={() => setOpen(false)} className="block border-b border-line py-4 font-body text-[18px] font-semibold text-ink-900 last:border-0">
+                <a href={`${home}${l.href}`} onClick={() => setOpen(false)} className="block border-b border-line py-4 font-body text-[18px] font-semibold text-ink-900 last:border-0">
                   {l.label}
                 </a>
               </li>
