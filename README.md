@@ -118,6 +118,5 @@ studio/                       the editor (Sanity Studio)
 - [x] Email notification for new leads (code done; needs Resend account + env vars)
 - [x] SEO, share card, icons, structured data, llms.txt, privacy page
 - [x] Accessibility: axe WCAG 2.1 AA clean at desktop and phone (`npm run test:a11y`)
-- [ ] Kerney’s real Facebook page URL in Business info (currently a placeholder)
 - [ ] Invite Kerney to the Sanity project
 - [ ] Domain, `SITE_LIVE=true`, analytics

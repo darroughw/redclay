@@ -15,7 +15,7 @@ export const defaults: SiteContent = {
     footerTagline: "Built on Solid Ground.",
     footerBlurb:
       "Stokes County owned & operated. Crawlspace and basement moisture solutions for Stokes, Surry, Forsyth & Yadkin counties.",
-    facebookUrl: "https://www.facebook.com/",
+    facebookUrl: "https://www.facebook.com/profile.php?id=61584487661159",
   },
   hero: {
     eyebrow: "Crawlspace & Basement Moisture Solutions",
