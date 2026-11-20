@@ -25,3 +25,9 @@
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     X-Frame-Options = "DENY"
+
+# Netlify's Next.js adapter. Declared explicitly (and pinned in web/package.json) because
+# auto-detection didn't apply it: without it Netlify publishes the raw .next folder and
+# every URL 404s.
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
