@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Barlow, Barlow_Condensed, Montserrat, Roboto_Slab } from "next/font/google";
 import "./globals.css";
 import { siteUrl } from "@/lib/site";
+import { getContent } from "@/lib/content";
 
 const robotoSlab = Roboto_Slab({
   variable: "--font-roboto-slab",
@@ -25,41 +26,28 @@ const montserrat = Montserrat({
   weight: ["700"],
 });
 
-const description =
-  "Stokes County owned crawlspace and basement repair: encapsulation, vapor barriers, footings, drainage, sump pumps, framing and masonry for Stokes, Surry, Forsyth & Yadkin counties, NC. Free inspections.";
-
-export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: {
-    default: "Crawlspace Repair & Encapsulation in Stokes, Surry, Forsyth & Yadkin, NC | Red Clay",
-    template: "%s | Red Clay Crawlspace Repair",
-  },
-  description,
-  applicationName: "Red Clay Crawlspace Repair",
-  alternates: { canonical: "/" },
-  // Until launch (SITE_LIVE=true), keep preview copies out of search results.
-  robots: process.env.SITE_LIVE === "true" ? { index: true, follow: true, "max-image-preview": "large" } : { index: false, follow: false },
-  openGraph: {
-    type: "website",
-    url: "/",
-    siteName: "Red Clay Crawlspace Repair",
-    title: "Red Clay Crawlspace Repair: Protecting Homes from the Ground Up",
-    description,
-    locale: "en_US",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Red Clay Crawlspace Repair: Protecting Homes from the Ground Up",
-    description,
-  },
-  formatDetection: { telephone: true, address: false, email: false },
-  category: "home improvement",
-  // Local-search hints some engines and AI crawlers still read.
-  other: {
-    "geo.region": "US-NC",
-    "geo.placename": "Pfafftown, North Carolina",
-  },
-};
+// Title, description and location come from Sanity (Business info), so Kerney's wording
+// is what Google, link previews and AI assistants see.
+export async function generateMetadata(): Promise<Metadata> {
+  const { business: b, hero } = await getContent();
+  const shareTitle = `${b.name}: ${hero.headline.replace(/\.$/, "")}`;
+  return {
+    metadataBase: new URL(siteUrl),
+    title: { default: `${b.seoTitle} | Red Clay`, template: `%s | ${b.name}` },
+    description: b.seoDescription,
+    applicationName: b.name,
+    alternates: { canonical: "/" },
+    // Until launch (SITE_LIVE=true), keep preview copies out of search results.
+    robots:
+      process.env.SITE_LIVE === "true" ? { index: true, follow: true, "max-image-preview": "large" } : { index: false, follow: false },
+    openGraph: { type: "website", url: "/", siteName: b.name, title: shareTitle, description: b.seoDescription, locale: "en_US" },
+    twitter: { card: "summary_large_image", title: shareTitle, description: b.seoDescription },
+    formatDetection: { telephone: true, address: false, email: false },
+    category: "home improvement",
+    // Local-search hints some engines and AI crawlers still read.
+    other: { "geo.region": `US-${b.region}`, "geo.placename": `${b.city}, ${b.region}` },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#1f1f1f",

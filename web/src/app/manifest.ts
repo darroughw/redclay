@@ -1,11 +1,13 @@
 import type { MetadataRoute } from "next";
+import { getContent } from "@/lib/content";
 
 // Lets the site be saved to a phone's home screen with the shield icon.
-export default function manifest(): MetadataRoute.Manifest {
+export default async function manifest(): Promise<MetadataRoute.Manifest> {
+  const { business: b } = await getContent();
   return {
-    name: "Red Clay Crawlspace Repair",
+    name: b.name,
     short_name: "Red Clay",
-    description: "Crawlspace & basement moisture solutions. Free inspections in Stokes, Surry, Forsyth & Yadkin counties, NC.",
+    description: b.seoDescription,
     start_url: "/",
     display: "browser",
     background_color: "#ffffff",

@@ -1,14 +1,15 @@
 // Branded 1200×630 share card (Facebook, iMessage, LinkedIn, X, Google Discover).
-// Rendered once at build time. It uses the approved copy and hero photo, not Sanity,
-// so it never depends on files being available at runtime. If the phone number or
-// counties change in Sanity, update src/content/defaults.ts too.
+// Text (eyebrow, headline, phone, counties) comes from Sanity; the background is the
+// bundled hero photo. Note that Facebook and other apps cache cards for days, so a
+// changed card can take a while to show up in shares.
 import { ImageResponse } from "next/og";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import sharp from "sharp";
-import { defaults } from "@/content/defaults";
+import { getContent } from "@/lib/content";
 
-export const alt = "Red Clay Crawlspace Repair: Protecting homes from the ground up. Free crawlspace inspections in Stokes, Surry, Forsyth & Yadkin counties.";
+// Fixed at build time, so keep it free of details Kerney might change.
+export const alt = "Red Clay Crawlspace Repair: crawlspace and basement moisture solutions, with free inspections.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/jpeg";
 
@@ -26,7 +27,8 @@ export default async function OgImage() {
     ),
     readFile(join(process.cwd(), "public/logo/shield.svg")),
   ]);
-  const b = defaults.business;
+  const c = await getContent();
+  const b = c.business;
   const dataUri = (buf: Buffer, type: string) => `data:${type};base64,${buf.toString("base64")}`;
 
   const png = new ImageResponse(
@@ -62,11 +64,11 @@ export default async function OgImage() {
             <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
               <div style={{ width: 44, height: 4, background: C.clay }} />
               <div style={{ fontFamily: "Cond", fontSize: 24, letterSpacing: 3.4, color: C.clay100, textTransform: "uppercase" }}>
-                {defaults.hero.eyebrow}
+                {c.hero.eyebrow}
               </div>
             </div>
             <div style={{ fontFamily: "Slab", fontSize: 76, lineHeight: 1.04, color: C.white, marginTop: 18, maxWidth: 820 }}>
-              Protecting Homes from the Ground Up.
+              {c.hero.headline}
             </div>
           </div>
 
@@ -87,7 +89,7 @@ export default async function OgImage() {
               {`FREE INSPECTIONS · ${b.phone}`}
             </div>
             <div style={{ fontFamily: "Body", fontSize: 24, color: C.white }}>
-              {`${b.counties.join(", ").replace(/, ([^,]*)$/, " & $1")} counties, NC`}
+              {`${b.counties.join(", ").replace(/, ([^,]*)$/, " & $1")} counties, ${b.region}`}
             </div>
           </div>
         </div>

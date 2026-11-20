@@ -13,6 +13,12 @@ export type Business = {
   phone: string;
   city: string;
   region: string;
+  /** Where it's owned and run from, e.g. "Stokes County". Used in search/AI descriptions. */
+  ownedIn: string;
+  /** Google/browser title, without the " | Red Clay" suffix. */
+  seoTitle: string;
+  /** Google result summary and link-preview text (70–160 characters). */
+  seoDescription: string;
   /** Counties served, e.g. "Stokes". Shown as "Stokes County". */
   counties: string[];
   utilityText: string;

@@ -18,12 +18,12 @@
   [headers.values]
     Cache-Control = "public, max-age=86400"
 
-# The share card is generated on first request; keep it on Netlify's CDN for a year. Its URL
-# carries a content hash, so a changed card gets a new URL.
+# The share card is rendered on request from Sanity text. Keep it on Netlify's CDN for a day
+# so crawlers get it fast, and edits in Sanity reach it within a day.
 [[headers]]
   for = "/opengraph-image*"
   [headers.values]
-    Netlify-CDN-Cache-Control = "public, durable, max-age=31536000, stale-while-revalidate=86400"
+    Netlify-CDN-Cache-Control = "public, durable, max-age=86400, stale-while-revalidate=604800"
 
 [[headers]]
   for = "/*"

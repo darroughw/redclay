@@ -10,6 +10,10 @@ export const defaults: SiteContent = {
     phone: "(336) 403-7093",
     city: "Pfafftown",
     region: "NC",
+    ownedIn: "Stokes County",
+    seoTitle: "Crawlspace Repair in Stokes, Surry, Forsyth & Yadkin, NC",
+    seoDescription:
+      "Stokes County owned crawlspace repair: encapsulation, footings, drainage, sump pumps and framing in Stokes, Surry, Forsyth & Yadkin, NC. Free inspections.",
     counties: ["Stokes", "Surry", "Forsyth", "Yadkin"],
     utilityText: "Stokes County owned & operated  ·  Serving Stokes, Surry, Forsyth & Yadkin counties",
     footerTagline: "Built on Solid Ground.",

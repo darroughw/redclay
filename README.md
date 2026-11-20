@@ -17,7 +17,7 @@ It's a single, fast landing page built from the approved Figma design, with a le
 
 Sign in at **redclay.sanity.studio**. Everything on the page that changes lives there:
 
-- **Business info:** phone, counties served, Facebook link, footer text. Shows on every part of the page and is what Google reads.
+- **Business info:** phone, city, "owned and operated in", counties served, Facebook link, footer text, and the **search title and description** Google shows. This is also what Google, link previews and AI assistants use to describe Red Clay, so keep it accurate.
 - **Home page:** headline, intro, the four "What's going on" tiles, warning signs, before-and-after photos, the four steps, the project photo gallery and the About section.
 - **Services:** title, short and long description, and photo for each service. Change **Position** to reorder (1 shows first).
 - **Reviews:** copy them word for word from Facebook or Google.

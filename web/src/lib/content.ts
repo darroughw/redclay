@@ -10,7 +10,7 @@ export const CONTENT_TAG = "content";
 
 const QUERY = `{
   "business": *[_id == "business"][0]{
-    name, phone, city, region, counties, utilityText, footerTagline, footerBlurb, facebookUrl
+    name, phone, city, region, ownedIn, counties, utilityText, footerTagline, footerBlurb, facebookUrl, seoTitle, seoDescription
   },
   "home": *[_id == "homePage"][0]{
     hero{eyebrow, headline, intro, introShort, checks, photo${PHOTO}},
