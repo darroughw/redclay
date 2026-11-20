@@ -97,7 +97,7 @@ studio/                       the editor (Sanity Studio)
 - [x] Sanity Studio: schemas, singleton docs, seed import from `defaults.ts`
 - [x] Sanity project, hosted Studio, content seeded, publish webhook
 - [x] Netlify site connected (`netlify.toml`)
-- [ ] Sanity env vars set in Netlify
+- [x] Sanity env vars set in Netlify; tested live: content from Sanity, publish refresh (~10s), form → Inspection requests
 - [ ] Email notification for new leads
 - [ ] Invite Kerney to the Sanity project
 - [ ] Domain, `SITE_LIVE=true`, privacy page, analytics
