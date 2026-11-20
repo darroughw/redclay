@@ -34,6 +34,14 @@ Nothing goes live until you click **Publish**. After that the change is on the s
 3. Publishing in Sanity fires a webhook at `/api/revalidate`, which marks the cached content stale. The next visitor gets the update, with no full rebuild.
 4. The inspection form posts to a Next.js server action. It validates the fields, filters bots with a honeypot, then saves the request into Sanity **and** emails it to Kerney (Resend). It reports success if either worked, and only shows the homeowner an error if both failed, so a lead is never lost silently.
 
+### Lead email alerts (Resend)
+
+Alerts currently go to the Resend account owner (Darrough), because Resend only sends to the owner until a domain is verified. To send them to Kerney:
+
+1. In Resend, **Domains → Add Domain → `redclaycrawlspace.com`**, add the DNS records it lists in Wix (they sit on a `send.` subdomain, so Google Workspace email on the main domain is unaffected), then click **Verify**.
+2. In Netlify, set `LEAD_NOTIFY_TO` to Kerney's address (comma-separate to copy others) and `LEAD_EMAIL_FROM` to `Red Clay Website <leads@redclaycrawlspace.com>`.
+3. Trigger a deploy, then send a test request.
+
 ### Search, sharing and AI assistants
 
 - Page metadata, canonical URL, Open Graph and Twitter tags in `layout.tsx`. Every page is `noindex` until `SITE_LIVE=true`.
@@ -115,7 +123,7 @@ studio/                       the editor (Sanity Studio)
 - [x] Sanity project, hosted Studio, content seeded, publish webhook
 - [x] Netlify site connected (`netlify.toml`)
 - [x] Sanity env vars set in Netlify; tested live: content from Sanity, publish refresh (~10s), form → Inspection requests
-- [x] Email notification for new leads (code done; needs Resend account + env vars)
+- [x] Email notification for new leads (live; going to Darrough until the domain is verified in Resend, see above)
 - [x] SEO, share card, icons, structured data, llms.txt, privacy page
 - [x] Accessibility: axe WCAG 2.1 AA clean at desktop and phone (`npm run test:a11y`)
 - [ ] Invite Kerney to the Sanity project
