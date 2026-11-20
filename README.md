@@ -8,19 +8,22 @@ It's a single, fast landing page built from the approved Figma design, with a le
 |---|---|
 | Design | [Figma: Red Clay](https://www.figma.com/design/5ui3QKy3DZkivc9TApdIcK/Red-Clay) (desktop 1440 and mobile 390 frames) |
 | Repo | https://github.com/darroughw/redclay |
-| Hosting | Netlify (Git-connected, settings in `netlify.toml`); preview link once connected |
-| Editor (Sanity Studio) | _not set up yet_ |
-| Production domain | _to be decided_ |
+| Preview site | https://redclaycrawlspace.netlify.app (Netlify, Git-connected, settings in `netlify.toml`) |
+| Editor (Sanity Studio) | https://redclay.sanity.studio |
+| Sanity project | `taiaxmef`, dataset `production` (on Darrough's account for now) |
+| Production domain | redclaycrawlspace.com (registered at Squarespace, DNS at Wix, email on Google Workspace; still points at the old Wix site) |
 
 ## For Kerney: editing the site
 
-_Once the editor is set up_, sign in to Sanity Studio. Everything on the page that changes lives there:
+Sign in at **redclay.sanity.studio**. Everything on the page that changes lives there:
 
 - **Business info:** phone, counties served, Facebook link, footer text. Shows on every part of the page and is what Google reads.
 - **Home page:** headline, intro, the four "What's going on" tiles, warning signs, before-and-after photos, the four steps, the project photo gallery and the About section.
-- **Services:** title, short and long description, and photo for each service. Drag to reorder.
+- **Services:** title, short and long description, and photo for each service. Change **Position** to reorder (1 shows first).
 - **Reviews:** copy them word for word from Facebook or Google.
-- **Inspection requests:** every form submission lands here with the homeowner's name, phone, address and what they need.
+- **Inspection requests:** every form submission lands here, newest first, with the homeowner's name, phone, address and what they need. Mark each one Called back, Inspection booked or Closed as you go.
+
+On photos, drag the circle (the hotspot) onto the important part of the picture. The site keeps that part in view when it crops the photo for phones and computers.
 
 Nothing goes live until you click **Publish**. After that the change is on the site within a minute. Every edit has a history, so anything can be undone.
 
@@ -44,7 +47,15 @@ npm install
 npm run dev                  # site at http://localhost:3000
 npm run build                # production build
 npm run lint
+
+cd ../studio
+npm install
+npm run dev                  # editor at http://localhost:3333
+npx sanity deploy            # publish editor changes to redclay.sanity.studio
+npx sanity exec scripts/import-defaults.ts --with-user-token   # seed content (only fills what's missing)
 ```
+
+The publish webhook ("Refresh website on publish") is set up in Sanity under **API → Webhooks**. It POSTs to `/api/revalidate` with `Authorization: Bearer <SANITY_REVALIDATE_SECRET>`, and only for business, homePage, service and review documents. New leads don't refresh the site.
 
 ### Environment variables
 
@@ -72,7 +83,10 @@ web/                          the website (Next.js 16, App Router, Tailwind 4)
   src/lib/content.ts          one cached GROQ query, merged over the defaults
   src/lib/sanity.ts           Sanity client and photo helper (crop + hotspot)
   public/images, logo, icons  photos and artwork exported from Figma
-studio/                       the editor (Sanity Studio), coming next
+studio/                       the editor (Sanity Studio)
+  schemaTypes/                the editing forms, written for Kerney
+  sanity.config.ts            sidebar order, singletons (Business info, Home page)
+  scripts/import-defaults.ts  one-time seed of the Figma copy and photos (safe to re-run)
 ```
 
 ## Status
@@ -80,8 +94,10 @@ studio/                       the editor (Sanity Studio), coming next
 - [x] Home page built from Figma, desktop and mobile
 - [x] Content layer with Sanity + defaults fallback, publish webhook
 - [x] Inspection form (server action, validation, honeypot, saves to Sanity)
-- [ ] Sanity Studio: schemas, singleton docs, seed import from `defaults.ts`
-- [ ] Create the Sanity project and hosted Studio
-- [x] Netlify config (`netlify.toml`)
-- [ ] Connect repo in Netlify, publish webhook, email notification for new leads
+- [x] Sanity Studio: schemas, singleton docs, seed import from `defaults.ts`
+- [x] Sanity project, hosted Studio, content seeded, publish webhook
+- [x] Netlify site connected (`netlify.toml`)
+- [ ] Sanity env vars set in Netlify
+- [ ] Email notification for new leads
+- [ ] Invite Kerney to the Sanity project
 - [ ] Domain, `SITE_LIVE=true`, privacy page, analytics
