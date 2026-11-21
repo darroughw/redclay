@@ -344,8 +344,7 @@ export function About({ c }: P) {
             <Image src={about.photo.src} alt={about.photo.alt} fill sizes="(min-width: 1024px) 560px, 100vw" className="object-cover" style={{ objectPosition: about.photo.position }} />
           </div>
           <div className="absolute -bottom-5 right-4 rounded-[6px] bg-white p-3 shadow-[0_12px_30px_rgba(0,0,0,0.18)] lg:bottom-auto lg:left-[440px] lg:right-auto lg:top-[380px] lg:p-[22px]">
-            <LogoMark width={56} className="lg:hidden" />
-            <LogoMark width={100} className="hidden lg:inline-block" />
+            <LogoMark width={100} fluid className="w-14 max-w-none align-top lg:w-[100px]" />
           </div>
         </div>
         <div className="flex flex-1 flex-col gap-5 lg:gap-6">
@@ -387,10 +386,12 @@ export function Review({ c }: P) {
   return (
     <section id="reviews" aria-label="Customer review" className="bg-sand-100 py-14 lg:bg-white lg:py-24">
       <figure className="wrap flex flex-col items-center gap-5 text-center lg:gap-6">
-        <span aria-hidden className="font-slab text-[72px] font-bold leading-[0.6] text-clay-500 lg:text-[86px]">
-          “
-        </span>
-        <blockquote className="max-w-[900px] font-slab text-[26px] font-semibold leading-[1.25] text-ink-900 lg:text-[36px]">{r.quote}</blockquote>
+        <blockquote className="max-w-[900px] font-slab text-[26px] font-semibold leading-[1.25] text-ink-900 lg:text-[36px]">
+          {/* Marks are added here, so strip any Kerney typed into Sanity to avoid doubling them. */}
+          <span aria-hidden className="font-bold text-clay-500">“</span>
+          {r.quote.trim().replace(/^["“”]+|["“”]+$/g, "")}
+          <span aria-hidden className="font-bold text-clay-500">”</span>
+        </blockquote>
         <figcaption className="whitespace-pre-line font-body text-[15px] font-medium text-ink-500 lg:whitespace-pre lg:text-[17px]">
           {r.source}
           <span className="hidden lg:inline">{"  ·  "}</span>

@@ -5,17 +5,18 @@ import type { ComponentProps, ReactNode } from "react";
  * clay red ONLY in the soil layers. public/logo/shield.svg is the Figma "Logo/Mark" layers
  * combined into one file. Base artboard is 200×230; pass a width and the height follows.
  */
-export function LogoMark({ width = 48, className = "" }: { width?: number; className?: string }) {
+/** Pass `fluid` to size it with className (e.g. responsive widths) instead of a fixed width. */
+export function LogoMark({ width = 48, className = "", fluid = false }: { width?: number; className?: string; fluid?: boolean }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element -- small SVG, nothing for next/image to optimize
     <img
       src="/logo/shield.svg"
       alt=""
       aria-hidden
-      width={width}
-      height={(width * 230) / 200}
-      className={`inline-block shrink-0 ${className}`}
-      style={{ width, height: (width * 230) / 200 }}
+      width={Math.round(width)}
+      height={Math.round((width * 230) / 200)}
+      className={`inline-block shrink-0 ${fluid ? "h-auto" : ""} ${className}`}
+      style={fluid ? undefined : { width, height: (width * 230) / 200 }}
     />
   );
 }
