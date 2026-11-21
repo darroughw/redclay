@@ -48,8 +48,10 @@ const variants: Record<Variant, string> = {
   dark: "bg-ink-900 text-white hover:bg-black",
   light: "bg-white text-clay-500 hover:bg-clay-100",
 };
+// Tailwind can't guarantee `hidden` beats `inline-flex` when both are on one element, so a
+// button that starts hidden (e.g. "hidden lg:inline-flex") must not also get inline-flex.
 export const buttonClass = (variant: Variant = "primary", extra = "") =>
-  `inline-flex min-h-11 items-center justify-center rounded-[4px] px-7 py-4 text-center font-cond text-[18px] font-bold uppercase leading-none tracking-[1.08px] transition-colors ${variants[variant]} ${extra}`;
+  `${/(^|\s)hidden(\s|$)/.test(extra) ? "" : "inline-flex"} min-h-11 items-center justify-center rounded-[4px] px-7 py-4 text-center font-cond text-[18px] font-bold uppercase leading-none tracking-[1.08px] transition-colors ${variants[variant]} ${extra}`;
 
 export function ButtonLink({ variant, className, ...props }: ComponentProps<"a"> & { variant?: Variant }) {
   return <a className={buttonClass(variant, className)} {...props} />;

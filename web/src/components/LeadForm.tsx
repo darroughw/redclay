@@ -17,12 +17,14 @@ const inputClass =
 
 function Field({
   label,
+  hint,
   error,
   className = "",
   children,
   id,
 }: {
   label: string;
+  hint?: string;
   error?: string;
   className?: string;
   children: React.ReactNode;
@@ -34,6 +36,11 @@ function Field({
         {label}
       </label>
       {children}
+      {hint && !error && (
+        <p id={`${id}-hint`} className="font-body text-[14px] text-ink-500">
+          {hint}
+        </p>
+      )}
       {error && (
         <p id={`${id}-error`} className="font-body text-[14px] font-medium text-clay-500">
           {error}
@@ -115,8 +122,8 @@ export function LeadForm({ services, phone, telHref }: { services: string[]; pho
         <Field id={fid("email")} label="Email" error={errors.email}>
           <input id={fid("email")} name="email" type="email" autoComplete="email" placeholder="you@email.com" className={inputClass} {...errProps("email")} />
         </Field>
-        <Field id={fid("address")} label="Property address or ZIP" error={errors.address}>
-          <input id={fid("address")} name="address" type="text" autoComplete="street-address" required placeholder="Winston-Salem, NC 27101" className={inputClass} {...errProps("address")} />
+        <Field id={fid("address")} label="Property address or ZIP" hint="Where the work is. Just a ZIP is fine." error={errors.address}>
+          <input id={fid("address")} name="address" type="text" autoComplete="street-address" required placeholder="Winston-Salem, NC 27101" className={inputClass} {...(errors.address ? errProps("address") : { "aria-describedby": `${fid("address")}-hint` })} />
         </Field>
         <Field id={fid("service")} label="What do you need help with?">
           <div className="relative">
@@ -134,9 +141,9 @@ export function LeadForm({ services, phone, telHref }: { services: string[]; pho
                 </option>
               ))}
             </select>
-            <span aria-hidden className="pointer-events-none absolute right-[14px] top-1/2 -translate-y-1/2 text-[12px] text-ink-500">
-              ▾
-            </span>
+            <svg aria-hidden viewBox="0 0 20 20" width="20" height="20" className="pointer-events-none absolute right-[14px] top-1/2 -translate-y-1/2 text-ink-700">
+              <path d="M5 7.5l5 5 5-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </div>
         </Field>
         {/* The phone layout in Figma drops this field to keep the form short. */}

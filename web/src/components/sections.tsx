@@ -201,7 +201,7 @@ export function BeforeAfter({ c }: P) {
             <H2 id="results-heading" className="max-w-[600px] text-white">
               {l2 ? (
                 <>
-                  {l1.replace(/\.$/, "")},<br className="hidden lg:block" /> {l2}
+                  {l1}<br className="hidden lg:block" /> {l2}
                 </>
               ) : (
                 ba.heading
