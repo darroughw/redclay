@@ -8,10 +8,10 @@ It's a single, fast landing page built from the approved Figma design, with a le
 |---|---|
 | Design | [Figma: Red Clay](https://www.figma.com/design/5ui3QKy3DZkivc9TApdIcK/Red-Clay) (desktop 1440 and mobile 390 frames) |
 | Repo | https://github.com/darroughw/redclay |
-| Preview site | https://redclaycrawlspace.netlify.app (Netlify, Git-connected, settings in `netlify.toml`) |
+| Live site | https://redclaycrawlspace.com (Netlify, Git-connected, settings in `netlify.toml`; `redclaycrawlspace.netlify.app` also serves it) |
 | Editor (Sanity Studio) | https://redclay.sanity.studio |
 | Sanity project | `taiaxmef`, dataset `production` (on Darrough's account for now) |
-| Production domain | redclaycrawlspace.com (registered at Squarespace, DNS at Wix, email on Google Workspace; still points at the old Wix site) |
+| Domain / DNS | redclaycrawlspace.com. DNS is managed in Wix (Settings → Domains → DNS Records): A `@` → `75.2.60.5`, CNAME `www` → `redclaycrawlspace.netlify.app`, plus Google Workspace MX and SPF. **Don't remove the domain from the Wix account** (that's where DNS lives); canceling the old Wix site plan is fine. |
 
 ## For Kerney: editing the site
 
@@ -127,4 +127,7 @@ studio/                       the editor (Sanity Studio)
 - [x] SEO, share card, icons, structured data, llms.txt, privacy page
 - [x] Accessibility: axe WCAG 2.1 AA clean at desktop and phone (`npm run test:a11y`)
 - [ ] Invite Kerney to the Sanity project
-- [ ] Domain, `SITE_LIVE=true`, analytics
+- [x] Live on redclaycrawlspace.com (HTTPS, `SITE_LIVE=true`, publish webhook on the real domain; tested)
+- [ ] Verify the domain in Resend and switch lead alerts to Kerney
+- [ ] Google Search Console, Google Business Profile and Facebook website link
+- [ ] Analytics
