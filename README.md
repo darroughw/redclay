@@ -36,11 +36,9 @@ Nothing goes live until you click **Publish**. After that the change is on the s
 
 ### Lead email alerts (Resend)
 
-Alerts currently go to the Resend account owner (Darrough), because Resend only sends to the owner until a domain is verified. To send them to Kerney:
+Alerts go to Kerney's address set in Netlify's `LEAD_NOTIFY_TO`, sent from `LEAD_EMAIL_FROM` (`Red Clay Website <leads@redclaycrawlspace.com>`). The domain is verified in Resend through DNS records in Wix (`resend._domainkey` and `send`, which don't affect Google Workspace email).
 
-1. In Resend, **Domains → Add Domain → `redclaycrawlspace.com`**, add the DNS records it lists in Wix (they sit on a `send.` subdomain, so Google Workspace email on the main domain is unaffected), then click **Verify**.
-2. In Netlify, set `LEAD_NOTIFY_TO` to Kerney's address (comma-separate to copy others) and `LEAD_EMAIL_FROM` to `Red Clay Website <leads@redclaycrawlspace.com>`.
-3. Trigger a deploy, then send a test request.
+To change who gets alerts: in Netlify, edit `LEAD_NOTIFY_TO` (comma-separate to send to more than one person), **trigger a deploy**, then send a test request. Every request is also saved in Sanity under Inspection requests, even if an email fails.
 
 ### Search, sharing and AI assistants
 
@@ -128,6 +126,6 @@ studio/                       the editor (Sanity Studio)
 - [x] Accessibility: axe WCAG 2.1 AA clean at desktop and phone (`npm run test:a11y`)
 - [ ] Invite Kerney to the Sanity project
 - [x] Live on redclaycrawlspace.com (HTTPS, `SITE_LIVE=true`, publish webhook on the real domain; tested)
-- [ ] Verify the domain in Resend and switch lead alerts to Kerney
+- [x] Domain verified in Resend; lead alerts go to Kerney
 - [ ] Google Search Console, Google Business Profile and Facebook website link
 - [ ] Analytics
